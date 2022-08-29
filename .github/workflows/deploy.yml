@@ -19,16 +19,15 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ./deploy.key
           sudo chmod 600 ./deploy.key
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          cat ${{ secrets.TEST_ENV_VARS }} > .env
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
 
       # (optional - only needed if your config uses environment variables)
-      - name: Create env file
-        uses: actions/checkout@v3
-        run: |
-          cat ${{ secrets.TEST_ENV_VARS }} > .env
+      # - name: Create env file
+        # run: |
 
       - name: Install PM2
         run: npm i pm2
