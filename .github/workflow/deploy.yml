@@ -27,6 +27,7 @@ jobs:
         run: |
           touch .env
           cat ${{ secrets.TEST_ENV_VARS }} >> .env
+          cat ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }} >> credentials.json
 
       - name: Install PM2
         run: npm i pm2
