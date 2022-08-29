@@ -38,12 +38,13 @@ jobs:
         shell: bash
         env:
           SERVICE_ACCOUNT_CREDENTIALS: ${{secrets.SERVICE_ACCOUNT_CREDENTIALS}}
-
-
-      - name: Install PM2
-        run: npm i pm2
+          
+      # - name: Install PM2
+      #   run: npm i pm2
 
       - name: Deploy
-        run: pm2 deploy ecosystem.config.js production
+        run: |
+          chmod +x ./pm2script.sh
+          bash ./pm2script.sh
         # Or alternately, put this deploy script in your package.json's scripts and run it using yarn/npm:
         # run: yarn deploy
