@@ -32,11 +32,18 @@ jobs:
         env:
           TEST_ENV_VARS: ${{secrets.TEST_ENV_VARS}}
 
+      - name: Create credentials file
+        run: |
+          echo "$SERVICE_ACCOUNT_CREDENTIALS" > .env
+        shell: bash
+        env:
+          SERVICE_ACCOUNT_CREDENTIALS: ${{secrets.SERVICE_ACCOUNT_CREDENTIALS}}
+
 
       - name: Install PM2
         run: npm i pm2
 
       - name: Deploy
-        run: env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production
+        run: pm2 deploy ecosystem.config.js production
         # Or alternately, put this deploy script in your package.json's scripts and run it using yarn/npm:
         # run: yarn deploy
