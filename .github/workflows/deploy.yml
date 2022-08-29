@@ -27,7 +27,11 @@ jobs:
       # (optional - only needed if your config uses environment variables)
       - name: Create env file
         run: |
-          cat "${{secrets.TEST_ENV_VARS}}" > .env
+          echo "$TEST_ENV_VARS" > .env
+        shell: bash
+        env:
+          TEST_ENV_VARS: ${{secrets.TEST_ENV_VARS}}
+
 
       - name: Install PM2
         run: npm i pm2
