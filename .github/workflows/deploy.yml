@@ -2,7 +2,8 @@ name: CI - Master
 
 on:
   push:
-    branches: [ main ]
+    branches:
+     - main
 
 jobs:
   deploy:
@@ -27,8 +28,10 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          cat ${{ secrets.TEST_ENV_VARS }} >> .env
-          cat ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }} >> credentials.json
+          eco ${{ secrets.TEST_ENV_VARS }} >> .env
+          eco ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }} >> credentials.json
+          cat .env
+          cat credentials.json
 
       - name: Install PM2
         run: npm i pm2
