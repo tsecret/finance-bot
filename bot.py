@@ -152,7 +152,7 @@ def handle_docs_audio(message: Message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message: Message):
-    bot.send_message(message.chat.id, '.')
+    bot.send_message(message.chat.id, message.text)
 
 
 # service = googleLogin()
