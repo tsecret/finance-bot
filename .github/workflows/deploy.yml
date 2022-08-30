@@ -19,6 +19,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
           sudo chmod 600 ~/.ssh/deploy.key
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          cd github/deutsche-bank-2-google-sheets
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -50,7 +51,6 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd github/deutsche-bank-2-google-sheets
             git fetch
             git pull
             git status
