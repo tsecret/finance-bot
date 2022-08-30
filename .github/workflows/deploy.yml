@@ -47,6 +47,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            ls
             cd /github/deutsche-bank-2-google-sheets
             git pull main
             git status
