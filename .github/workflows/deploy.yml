@@ -47,8 +47,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            exec bash \-l
             cd github/deutsche-bank-2-google-sheets
-            git pull main
+            git fetch
+            git pull
             git status
             pip3 install -r requirements.txt
             npm i -g pm2
