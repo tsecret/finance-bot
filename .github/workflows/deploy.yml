@@ -46,8 +46,10 @@ jobs:
           username: 'root'
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
+          script_stop: true
           script: |
-            exec bash \-l
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd github/deutsche-bank-2-google-sheets
             git fetch
             git pull
