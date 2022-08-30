@@ -10,36 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      #
-      # ... your other steps, such as running tests, etc...
-      #
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
-          sudo chmod 600 ~/.ssh/deploy.key
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          cd github/deutsche-bank-2-google-sheets
-        shell: bash
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
-
-      # (optional - only needed if your config uses environment variables)
-      - name: Create env file
-        run: |
-          echo "$TEST_ENV_VARS" > .env
-        shell: bash
-        env:
-          TEST_ENV_VARS: ${{secrets.TEST_ENV_VARS}}
-
-      - name: Create credentials file
-        run: |
-          echo "$SERVICE_ACCOUNT_CREDENTIALS" > .env
-        shell: bash
-        env:
-          SERVICE_ACCOUNT_CREDENTIALS: ${{secrets.SERVICE_ACCOUNT_CREDENTIALS}}
-          
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
@@ -49,11 +19,19 @@ jobs:
           port: 22
           script_stop: true
           script: |
+            cd github/deutsche-bank-2-google-sheets
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             git fetch
             git pull
             git status
+            echo "$TEST_ENV_VARS" > .env
+            echo "$SERVICE_ACCOUNT_CREDENTIALS" > credentials.json
             pip3 install -r requirements.txt
             npm i -g pm2
             pm2 restart "FinanceBot"
+            cat .env
+            cat credentials.json
+        env:
+          TEST_ENV_VARS: ${{secrets.TEST_ENV_VARS}}
+          SERVICE_ACCOUNT_CREDENTIALS: ${{secrets.SERVICE_ACCOUNT_CREDENTIALS}}
