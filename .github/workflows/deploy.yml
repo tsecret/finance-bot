@@ -39,12 +39,16 @@ jobs:
         env:
           SERVICE_ACCOUNT_CREDENTIALS: ${{secrets.SERVICE_ACCOUNT_CREDENTIALS}}
           
-      # - name: Install PM2
-      #   run: npm i pm2
-
-      - name: Deploy
-        run: |
-          chmod +x ./pm2script.sh
-          bash ./pm2script.sh
-        # Or alternately, put this deploy script in your package.json's scripts and run it using yarn/npm:
-        # run: yarn deploy
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: 'root'
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd ~/root/github/deutsche-bank-2-google-sheets
+            git pull main
+            git status
+            pip3 install -r requirements.txt
+            pm2 restart "GDA web"
