@@ -18,6 +18,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script_stop: true
+          envs: TEST_ENV_VARS, SERVICE_ACCOUNT_CREDENTIALS
           script: |
             cd github/deutsche-bank-2-google-sheets
             export NVM_DIR=~/.nvm
