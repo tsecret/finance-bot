@@ -28,6 +28,7 @@ jobs:
             git status
             echo "$TEST_ENV_VARS" > .env
             echo "$SERVICE_ACCOUNT_CREDENTIALS" > credentials.json
+            ls -la
             pip3 install -r requirements.txt
             npm i -g pm2
             pm2 restart "FinanceBot"
